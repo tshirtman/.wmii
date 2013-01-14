@@ -1,0 +1,6 @@
+*.swo
+*.swp
+*.un~
+history.actions
+history.progs
+history.tags
