@@ -12,3 +12,36 @@ wmiir write /tagrules <<!
 /Thunderbird|empathy/ -> communication
 /rhythmbox/ -> music
 !
+
+local_events() {
+	cat << EOF
+Key $MODKEY-n
+	nautilus --no-desktop&
+
+KeyGroup Multimedia
+Key XF86AudioLowerVolume
+	vol down
+Key XF86AudioRaiseVolume
+	vol up
+Key XF86AudioMute
+	vol mute
+
+KeyGroup Resize Windows
+Key $MODKEY-Control-$UP
+	echo -n "grow sel sel down -1" | wmiir write /tag/sel/ctl
+Key $MODKEY-Control-$RIGHT
+	echo -n "grow sel sel right 1" | wmiir write /tag/sel/ctl
+Key $MODKEY-Control-$DOWN
+	echo -n "grow sel sel down 1" | wmiir write /tag/sel/ctl
+Key $MODKEY-Control-$LEFT
+	echo -n "grow sel sel right -1" | wmiir write /tag/sel/ctl
+EOF
+}
+
+# load at startup
+killall trayer
+trayer --width 4 --edge top --height 16 --transparent true --alpha 255&
+
+pgrep hamster-service || hamster-time-tracker&
+pgrep hamster-indicat || hamster-indicator&
+pgrep pomodoro-indica || pomodoro-indicator&
