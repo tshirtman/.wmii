@@ -1,3 +1,4 @@
+#!/usr/bin/env dash
 MODKEY=Mod4
 xrandr --output VGA-0 --left-of DVI-0
 xrandr --output VGA-0 --auto
@@ -5,6 +6,9 @@ xrandr --output VGA-0 --left-of DVI-0
 
 # tagrules
 wmiir write /tagrules <<!
-	/trayer|panel|VLC.*|Mplayer.*/ -> +/^/
-	/terminal|browser/ -> sel
+/trayer|panel|VLC.*|MPlayer.*/ -> +/^/+~
+/terminal|Firefox|nautilus/ -> sel
+/main.py/ -> ~
+/Thunderbird|empathy/ -> communication
+/rhythmbox/ -> music
 !
