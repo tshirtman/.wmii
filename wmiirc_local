@@ -45,3 +45,9 @@ trayer --width 4 --edge top --height 16 --transparent true --alpha 255&
 pgrep hamster-service || hamster-time-tracker&
 pgrep hamster-indicat || hamster-indicator&
 pgrep pomodoro-indica || pomodoro-indicator&
+pgrep gnome-fallback- || /usr/lib/gnome-settings-daemon/gnome-fallback-mount-helper&
+pgrep nm-applet || nm-applet&
+pgrep gnome-sound-app || gnome-sound-applet&
+
+killall gnome-keyring-daemon
+gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Wmii
+Comment=Window manager improved 3
+Exec=wmii.loop
+Icon=wmii.png
+Type=XSession

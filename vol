@@ -1,0 +1,39 @@
+#!/bin/bash
+A=$(pacmd dump | grep "set-sink-volume alsa_output.*.analog-stereo" | cut -d " " -f 3)
+
+case $1 in
+	'up')
+		B=$((A + 0x01000))
+		if [ $(($B)) -gt $((0x10000)) ]
+		then
+			B=$((0x10000))
+		fi
+		;;
+	'down')
+		B=$((A - 0x01000))
+		if [ $(($B)) -lt $((0x00000)) ]
+		then
+			B=$((0x00000))
+		fi
+		;;
+	'mute')
+		A=$(pacmd dump | grep set-sink-mute.*.analog-stereo| cut -d' ' -f3)
+		if [ $A = 'no' ]
+		then
+			pactl set-sink-mute 1 'yes'
+			notify-send "Volume" -i /usr/share/notify-osd/icons/gnome/scalable/status/notification-audio-volume-muted.svg -h string:synchronous:volume
+		else
+			pactl set-sink-mute 1 'no'
+			notify-send "Volume" -i /usr/share/notify-osd/icons/gnome/scalable/status/notification-audio-volume-high.svg -h string:synchronous:volume
+		fi
+		exit;;
+	'=')
+		B="$2";;
+	'')
+		echo $A
+		exit;;
+	*)
+	exit;;
+esac
+pactl set-sink-volume 1 `printf "0x%X" $B`
+notify-send "Volume" -i /usr/share/notify-osd/icons/gnome/scalable/status/notification-audio-volume-high.svg -h int:value:$(($B*100/0x10000)) -h string:synchronous:volume
