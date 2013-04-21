@@ -57,6 +57,8 @@ EOF
 }
 
 # load at startup
+pgrep gnome-settings- || gnome-settings-daemon &
+
 killall trayer
 trayer --width 7 --edge top --height 16 --transparent true --alpha 128&
 
@@ -67,5 +69,4 @@ pgrep gnome-fallback- || /usr/lib/gnome-settings-daemon/gnome-fallback-mount-hel
 pgrep nm-applet || nm-applet&
 pgrep gnome-sound-app || gnome-sound-applet&
 
-killall gnome-keyring-daemon
-gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh
+eval $(gnome-keyring-daemon --start)
