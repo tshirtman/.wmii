@@ -1,4 +1,5 @@
 #!/usr/bin/env dash
+export WMII_FONT='xft:Sans-8'
 MODKEY=Mod4
 xrandr --output VGA-0 --left-of DVI-0
 xrandr --output VGA-0 --auto
@@ -12,6 +13,39 @@ wmiir write /tagrules <<!
 /Thunderbird|empathy/ -> communication
 /rhythmbox/ -> music
 !
+
+# Status Bar Info
+battery_status() {
+t=$(acpi -b|sed -n 's/.*\([0-9][0-9]:[0-9][0-9]\):[0-9][0-9].*/\1/p')
+c=$(acpi -a|grep 'on'|wc -l |sed -s 's/1/⚡/' |sed -s 's/0/☢/' )
+echo -n $t$c
+}
+
+updates_status() {
+c=$(cut -d ';' -f1 /tmp/updates)
+n=$(cut -d ';' -f2 /tmp/updates)
+bar=''
+if [ $c -gt 0 ]
+then
+ echo -n $c'⚠'
+ bar='|'
+fi
+if [ $n -gt 0 ]
+then
+ echo -n $n'⚚'
+ bar='|'
+fi
+echo -n $bar
+}
+
+status() {
+echo -n \
+$(iwconfig eth1 | grep 'ESSID'|cut -d':' -f2|sed -s 's/"//g')'|'\
+$(battery_status)'|'\
+$(updates_status)\
+$(uptime | sed 's/.*: //; s/,//g; s/ /,/g')'|'\
+$(date '+%a %x %X %z')
+}
 
 local_events() {
 	cat << EOF
@@ -40,10 +74,7 @@ EOF
 
 # load at startup
 pgrep gnome-settings- || gnome-settings-daemon &
-
-killall trayer
-trayer --width 4 --edge top --height 16 --transparent true --alpha 255&
-
+pgrep trayer || trayer --width 4 --edge top --height 16 --transparent true --alpha 128 &
 pgrep hamster-service || hamster-time-tracker&
 pgrep hamster-indicat || hamster-indicator&
 pgrep pomodoro-indica || pomodoro-indicator&
@@ -52,3 +83,6 @@ pgrep nm-applet || nm-applet&
 pgrep gnome-sound-app || gnome-sound-applet&
 
 eval $(gnome-keyring-daemon --start)
+
+dconf write /org/gnome/settings-daemon/plugins/xrandr/active true
+dconf write /org/gnome/settings-daemon/plugins/xrandr/active false
