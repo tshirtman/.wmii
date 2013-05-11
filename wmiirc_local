@@ -78,6 +78,12 @@ Key XF86HomePage
 Key XF86Calculator
 	kp
 
+Key $MODKEY-e
+	dmlocate
+
+Key $MODKEY-c
+	gnome-control-center&
+
 KeyGroup Resize Windows
 Key $MODKEY-Up
 	echo -n "grow sel sel down -5" | wmiir write /tag/sel/ctl
@@ -99,8 +105,9 @@ pgrep pomodoro-indica || pomodoro-indicator&
 pgrep gnome-fallback- || /usr/lib/gnome-settings-daemon/gnome-fallback-mount-helper&
 pgrep nm-applet || nm-applet&
 pgrep gnome-sound-app || gnome-sound-applet&
+pgrep keynav || keynav&
 
 eval $(gnome-keyring-daemon --start)
 
-dconf write /org/gnome/settings-daemon/plugins/xrandr/active true
-dconf write /org/gnome/settings-daemon/plugins/xrandr/active false
+(sleep 0 && dconf write /org/gnome/settings-daemon/plugins/media-keys/active true)&
+(sleep 1 && dconf write /org/gnome/settings-daemon/plugins/media-keys/active false)&
