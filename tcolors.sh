@@ -1,7 +1,7 @@
 # from http://ciembor.github.io/4bit/#
 gconftool-2 --set /apps/gnome-terminal/profiles/Default/use_theme_background --type bool false 
 gconftool-2 --set /apps/gnome-terminal/profiles/Default/use_theme_colors --type bool false 
-gconftool-2 -s -t string /apps/gnome-terminal/profiles/Default/background_color '#0d0d19192626'
+gconftool-2 -s -t string /apps/gnome-terminal/profiles/Default/background_color '#0921057e0a3d'
 gconftool-2 -s -t string /apps/gnome-terminal/profiles/Default/foreground_color '#d9d9e6e6f2f2'
 gconftool-2 -s -t string /apps/gnome-terminal/profiles/Default/palette "\
 #000000000000:\
