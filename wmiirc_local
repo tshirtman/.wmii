@@ -1,13 +1,15 @@
 #!/usr/bin/env dash
 export WMII_FONT='xft:Sans-8'
+export WMII_TERM='x-terminal-emulator'
 MODKEY=Mod4
 xrandr --output VGA-0 --left-of DVI-0
 xrandr --output VGA-0 --auto
+xrandr --output DVI-0 --auto
 xrandr --output VGA-0 --left-of DVI-0
 
 # tagrules
 wmiir write /tagrules <<!
-/trayer|panel|VLC.*|MPlayer.*/ -> +/^/+~
+/trayer|panel|VLC.*|MPlayer.*|TogglDesktop/ -> +/^/+~
 /terminal|Firefox|nautilus/ -> sel
 /main.py/ -> ~
 /Thunderbird|empathy/ -> communication
@@ -99,8 +101,9 @@ EOF
 # load at startup
 pgrep gnome-settings- || gnome-settings-daemon &
 pgrep trayer || trayer --width 6 --edge top --height 16 --transparent true --alpha 128 &
-pgrep hamster-service || hamster-time-tracker&
-pgrep hamster-indicat || hamster-indicator&
+#pgrep hamster-service || hamster-time-tracker&
+#pgrep hamster-indicat || hamster-indicator&
+pgrep TogglDesktop || ~/Téléchargements/toggl/TogglDesktop&
 pgrep pomodoro-indica || pomodoro-indicator&
 pgrep gnome-fallback- || /usr/lib/gnome-settings-daemon/gnome-fallback-mount-helper&
 pgrep nm-applet || nm-applet&
